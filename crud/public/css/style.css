@@ -1,0 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.student-table img {
+  width: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
