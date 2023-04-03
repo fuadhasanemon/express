@@ -5,8 +5,9 @@ const {
   showTeampage,
   showaboutpage,
   showContactpage,
-} = require("../controller/pageController");
-const { checkAge, currancyCheck } = require("../controller/helperController");
+} = require("../controllers/pageController");
+const { checkAge, currancyCheck } = require("../controllers/helperController");
+const { ageValidator } = require("../middlewares/ageValidatorMiddleware");
 
 // init router
 const router = express.Router();
@@ -14,13 +15,13 @@ const router = express.Router();
 // Routing
 router.get("/", showHomepage);
 
-router.get("/team", showTeampage);
+router.get("/staff", showaboutpage);
 
-router.get("/about", showaboutpage);
+// router.get("/team", showTeampage);
 
 router.get("/contact", showContactpage);
 
-router.post("/check-age", checkAge);
+router.post("/check-age", ageValidator, checkAge);
 
 router.get("/currancy/:doller/:type", currancyCheck);
 
