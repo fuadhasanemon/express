@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const path = require("path");
 const student = require("./routes/student");
 const expressLayouts = require("express-ejs-layouts");
+// const bodyParser = require("body-parser");
 
 // environment variables
 dotenv.config();
@@ -13,8 +14,12 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 
 // data manage
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+// parse application/x-www-form-urlencoded
+// app.use(bodyParser.urlencoded({ extended: false }));
+// // parse application/json
+// app.use(bodyParser.json());
 
 // EJS init
 app.set("view engine", "ejs");
@@ -26,7 +31,6 @@ app.use(express.static("public"));
 
 // init router
 app.use("/student", student);
-
 
 // server listen
 app.listen(PORT, () => {
