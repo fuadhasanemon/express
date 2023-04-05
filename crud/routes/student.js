@@ -5,6 +5,8 @@ const {
   createStudents,
   singleStudent,
   editStudent,
+  updateStudent,
+  deleteStudent,
   studentDataStore,
 } = require("../controllers/studentController");
 const multer = require("multer");
@@ -28,11 +30,18 @@ const studentPhotoMulter = multer({
 }).single("student_photo");
 
 // Routing
+// Create and store student data
 router.get("/", showAllStudents);
 router.get("/create", createStudents);
 router.post("/create", studentPhotoMulter, studentDataStore);
+
+// Edit and update student data
 router.get("/:id", singleStudent);
 router.get("/edit/:id", editStudent);
+router.post("/update/:id", studentPhotoMulter, updateStudent);
+
+// Delete student data
+router.get("/delete/:id", deleteStudent);
 
 // export
 module.exports = router;
