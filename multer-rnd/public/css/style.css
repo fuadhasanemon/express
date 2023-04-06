@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.student-table th {
+  text-align: center !important;
+  text-transform: capitalize;
+}
+
+.student-table img {
+  width: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Student photo upload preview style */
+.studentImagePreview {
+  max-width: 100%;
+  margin-bottom: 15px !important;
+}
+
+/* Single page student image */
