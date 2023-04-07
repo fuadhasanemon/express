@@ -4,7 +4,6 @@ const dotenv = require("dotenv");
 const path = require("path");
 const expressLayouts = require("express-ejs-layouts");
 const userRout = require("./routes/userRoutes");
-// const bodyParser = require("body-parser");
 
 // environment variables
 dotenv.config();

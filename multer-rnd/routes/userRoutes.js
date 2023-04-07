@@ -12,16 +12,46 @@ const router = express.Router();
 // Multer setup
 const userStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "../public/images/users/"));
+
+      if(req.files.user_photo){
+        if (
+          file.mimetype == "image/jpeg" ||
+          file.mimetype == "image/jpg" ||
+          file.mimetype == "image/png" ||
+          file.mimetype == "image/webp" ||
+          file.mimetype == "image/pdf"
+        ) {
+          cb(null, path.join(__dirname, "../public/images/users/"));
+        } else {
+          console.log("Inavald photo format");
+        }
+      }
+      if(req.files.user_cv){
+        if(file.mimetype == "application/pdf"){
+          cb(null, path.join(__dirname, "../public/cv/"));
+        } else {
+          console.log("Inavald cv format");
+        }
+        
+      }
+
   },
   filename: (req, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, Date.now() + "_" + Math.floor(Math.random() * 100) + "_" + file.originalname);
   },
 });
 
+// Multer middleware
 const userMulter = multer({
   storage: userStorage,
-}).single("photo");
+}).fields([
+  {
+    name : "user_photo",
+  },
+  {
+    name : "user_cv",
+  }
+]);
 
 // Routs
 router.get("/", showUserForms);
