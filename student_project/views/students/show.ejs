@@ -1,0 +1,61 @@
+<style>
+  .single-student .student_single_page_image {
+    width: 200px !important;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    justify-content: center;
+    align-self: center;
+    margin-top: 40px;
+  }
+
+  .justufy-content-center {
+    margin: 0 auto;
+  }
+
+  .singlepageBackButton {
+    display: flex;
+    justify-content: center;
+    width: 100px;
+    margin: 0 auto;
+  }
+</style>
+
+<div class="container single-student">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center m-5">Single page</h1>
+      <a href="/student" class="btn btn-md btn-primary singlepageBackButton"
+        >Back</a
+      >
+      <br />
+      <br />
+      <div class="col-md-6 justufy-content-center">
+        <div class="card shadow">
+          <% if (student.photo === "avatar.jpg") { %>
+          <img
+            class="student_single_page_image"
+            src="/images/avatar.jpg"
+            alt=""
+          />
+          <% } else { %>
+          <img
+            class="student_single_page_image"
+            src="/images/students/<%= student.photo  %>"
+            alt=""
+          />
+
+          <% } %>
+
+          <div class="content text-center my-3">
+            <h2><%= student.name %></h2>
+            <h3><%= student.phone %></h3>
+            <h3><%= student.email %></h3>
+            <h3><%= student.location %></h3>
+            <p>Lorem ipsum dolor sit amet consectetur.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
