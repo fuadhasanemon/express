@@ -9,8 +9,10 @@ const {
   updateStudent,
   deleteStudent,
   studentDataStore,
+  verifyAccount,
 } = require("../controllers/studentController");
 const multer = require("multer");
+const { verify } = require("crypto");
 
 // Routes init
 const router = express.Router();
@@ -41,6 +43,9 @@ router.post("/create", studentPhotoMulter, studentDataStore);
 router.get("/:id", singleStudent);
 router.get("/edit/:id", editStudent);
 router.post("/update/:id", studentPhotoMulter, updateStudent);
+
+// Student varify
+router.get("/verify/:token", verifyAccount);
 
 // Delete student data
 router.get("/delete/:id", deleteStudent);

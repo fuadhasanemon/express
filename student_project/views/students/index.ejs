@@ -5,6 +5,14 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
+  .d-flex {
+    flex-wrap: wrap;
+  }
+
+  .student-card {
+    width: 32%;
+  }
 </style>
 
 <div class="container">
@@ -23,7 +31,7 @@
     <div class="col-md-12 d-flex gap-3">
       <% students.reverse().forEach((student,index) => { %>
 
-      <div class="col-md-4">
+      <div class="col-md-4 student-card">
         <div class="card shadow-sm p-3 text-center ga">
           <div class="image_wapper">
             <% if (student.photo == "avatar.jpg") { %>

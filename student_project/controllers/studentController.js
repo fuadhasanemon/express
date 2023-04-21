@@ -2,6 +2,7 @@ const { time } = require("console");
 const { json } = require("express");
 const { readFileSync, writeFileSync } = require("fs");
 const path = require("path");
+const veryfiAccountMail = require("../utility/sendMail");
 
 // Show all students [index file]
 const showAllStudents = (req, res) => {
@@ -10,10 +11,10 @@ const showAllStudents = (req, res) => {
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
 
-  const verified = students.filter( data => data.isVerified == true);
+  const verified = students.filter((data) => data.isVerified == true);
 
   res.render("students/index", {
-    students : verified,
+    students: verified,
   });
 };
 
@@ -24,10 +25,10 @@ const showAllUnverifiedStudents = (req, res) => {
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
 
-  const unVerified = students.filter( data => data.isVerified == false);
+  const unVerified = students.filter((data) => data.isVerified == false);
 
   res.render("students/unverified", {
-    students : unVerified,
+    students: unVerified,
   });
 };
 
@@ -37,22 +38,28 @@ const createStudents = (req, res) => {
 };
 
 // create student from create form and save it to json db
-const studentDataStore = (req, res) => {
+const studentDataStore = async (req, res) => {
   // Read file form student json db
   const students = JSON.parse(
     readFileSync(path.join(__dirname, "../db/student.json"))
   );
 
-  const { name, email, phone, location, photo } = req.body;
+  // Get all data
+  const { name, email, phone, location } = req.body;
 
   console.log(req.body);
 
+  // get last id
   let last_id = 1;
 
   if (students.length > 0) {
     last_id = students[students.length - 1].id + 1;
   }
 
+  // Genarata token
+  const token = Date.now() + "_" + Math.floor(Math.random() * 10000000);
+
+  // Add a new user
   students.push({
     id: last_id,
     name: name,
@@ -61,7 +68,15 @@ const studentDataStore = (req, res) => {
     location: location,
     photo: req.file ? req.file.filename : "avatar.jpg",
     isVerified: false,
-    token: Date.now() +"_"+ Math.floor(Math.random() * 10000000) 
+    token: token
+  });
+
+   // Send mail
+   await veryfiAccountMail(email, 'Verify Account', {
+    name,
+    email,
+    token,
+    phone,
   });
 
   // now write data to json db
@@ -147,6 +162,37 @@ const deleteStudent = (req, res) => {
   res.redirect("/student");
 };
 
+// Verify account
+const verifyAccount = (req, res) => {
+
+   // Read file form student json db
+   const students = JSON.parse(
+    readFileSync(path.join(__dirname, "../db/student.json"))
+  );
+
+  // token
+  const token = req.params.token;
+
+
+  const studentIdIndex = students.findIndex((data) => data.token == token);
+
+  students[studentIdIndex] = {
+    ...students[studentIdIndex],
+   isVerified : true,
+   token : null
+  };
+
+  // now write data to json db
+  writeFileSync(
+    path.join(__dirname, "../db/student.json"),
+    JSON.stringify(students)
+  );
+
+  res.redirect("/student/");
+
+ 
+}
+
 module.exports = {
   showAllStudents,
   showAllUnverifiedStudents,
@@ -156,4 +202,5 @@ module.exports = {
   updateStudent,
   studentDataStore,
   deleteStudent,
+  verifyAccount
 };
