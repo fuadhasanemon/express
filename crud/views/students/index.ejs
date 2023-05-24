@@ -1,43 +1,65 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center m-5">Get all students</h1>
+      <a href="/student/create" class="btn btn-md btn-primary">Add student</a>
+      <br />
+      <br />
+      <div class="table-container card p-5">
+        <table
+          class="table table-striped student-table my-5"
+          id="student-Data-Table"
+        >
+          <thead class="text-center table-primary">
+            <tr class="align-middle">
+              <th scope="col">id</th>
+              <th scope="col">name</th>
+              <th scope="col">email</th>
+              <th scope="col">phone</th>
+              <th scope="col">address</th>
+              <th scope="col">photo</th>
+              <th scope="col">action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% students.reverse().forEach((student,index) => { %>
 
-            
+            <tr class="text-center align-middle">
+              <td><%= index + 1 %></td>
+              <td><%= student.name %></td>
+              <td><%= student.email %></td>
+              <td><%= student.phone %></td>
+              <td><%= student.location %></td>
+              <td>
+                <% if (student.photo == "avatar.jpg") { %>
+                <img src="/images/<%= student.photo %>" alt="" />
+                <% } else { %>
+                <img src="/images/students/<%= student.photo %>" alt="" />
+                <% } %>
+              </td>
+              <td>
+                <a
+                  class="btn btn-sm btn-info"
+                  href="/student/<%= student.id  %>"
+                  ><i class="fas fa-eye"></i
+                ></a>
+                <a
+                  class="btn btn-sm btn-warning"
+                  href="/student/edit/<%= student.id  %>"
+                  ><i class="fas fa-edit"></i
+                ></a>
+                <a
+                  class="btn btn-sm btn-danger delete-button"
+                  href="/student/delete/<%= student.id  %>"
+                  ><i class="fas fa-trash"></i
+                ></a>
+              </td>
+            </tr>
 
-            <h1 class="text-center m-5">Get all students</h1>
-            <a href="" class="btn btn-md btn-primary">Add student</a>
-            <br>
-            <br>
-            <div class="table-container">
-                <table class="table table-striped student-table">
-                    <thead class="text-center">
-                        <tr class="align-middle">
-                            <th scope="col">id</th>
-                            <th scope="col">name</th>
-                            <th scope="col">email</th>
-                            <th scope="col">phone</th>
-                            <th scope="col">address</th>
-                            <th scope="col">photo</th>
-                            <th scope="col">action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center align-middle">
-                            <td>1</td>
-                            <td>fuad</td>
-                            <td>fuad@gmail.com</td>
-                            <td>1565654644561</td>
-                            <td>badda</td>
-                            <td><img src="https://powerpackelements.com/wp-content/uploads/2017/11/Team-memeber-01.png" alt=""></td>
-                            <td>
-                                <a class="btn btn-sm btn-info" href="" ><i class="fas fa-eye"></i></a>
-                                <a class="btn btn-sm btn-warning" href="" ><i class="fas fa-edit"></i></a>
-                                <a class="btn btn-sm btn-danger" href="" ><i class="fas fa-trash"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
